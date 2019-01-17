@@ -1,11 +1,15 @@
 'use strict'
 
 const test = require('ava').default
-const RangeCollection = require('../index')
+const SimpleRangeCollection = require('../src/SimpleRangeCollection/index')
 
 test.before((t) => {
   // Example run
-  t.context.rc = new RangeCollection()
+  t.context.rc = new SimpleRangeCollection()
+})
+
+test('instantiate', t => {
+  t.true(t.context.rc instanceof SimpleRangeCollection)
 })
 
 test('complex sequence', t => {
