@@ -1,7 +1,7 @@
 'use strict'
 
 const test = require('ava').default
-const RangeCollection = require('../index')
+const RangeCollection = require('../src/index')
 
 test.before((t) => {
   // Example run
