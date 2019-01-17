@@ -1,0 +1,37 @@
+{
+  "name": "ranges",
+  "version": "0.0.1",
+  "description": "keep track of ranges",
+  "main": "index.js",
+  "scripts": {
+    "test": "ava"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pcuci/ranges.git"
+  },
+  "keywords": [
+    "to",
+    "range",
+    "or",
+    "not",
+    "to",
+    "range"
+  ],
+  "author": "paulcu@gmail.com",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pcuci/ranges/issues"
+  },
+  "homepage": "https://github.com/pcuci/ranges#readme",
+  "devDependencies": {
+    "@commitlint/cli": "^7.3.2",
+    "@commitlint/config-conventional": "^7.3.1",
+    "husky": "^1.3.1"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }  
+  }
+}
