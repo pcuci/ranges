@@ -12,7 +12,23 @@ class SimpleRangeCollection extends RangeCollection {
    */
   add ([start, end]) {
     this.ranges = [...this.ranges, start, -end]
-    // TODO: implement this
+    this.ranges.sort((a, b) => (Math.abs(a) - Math.abs(b)))
+
+    let inRange = false
+    let idx
+
+    for (idx = 0; idx < this.ranges.length - 1; idx++) {
+      if (inRange && this.ranges[idx] + this.ranges[idx + 1] <= 0) {
+        // remove both consecutive elements
+        this.ranges.splice(idx, 2)
+      }
+
+      if (this.ranges[idx] >= 0) {
+        inRange = true
+      } else {
+        inRange = false
+      }
+    }
   }
 
   /**
