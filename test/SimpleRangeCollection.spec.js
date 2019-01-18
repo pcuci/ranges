@@ -13,7 +13,14 @@ test('instantiate', t => {
   t.true(t.context.rc instanceof SimpleRangeCollection)
 })
 
-test('complex sequence', t => {
+test('add to empty', t => {
+  // @ts-ignore
+  t.context.rc.add([1, 5])
+  console.log(t.context.rc.ranges)
+  t.deepEqual(t.context.rc.ranges.length, 2)
+})
+
+test.skip('complex sequence', t => {
   // @ts-ignore
   t.context.rc.add([1, 5])
   // @ts-ignore
