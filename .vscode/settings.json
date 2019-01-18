@@ -1,0 +1,6 @@
+{
+    "javascript.implicitProjectConfig.checkJs": true,
+    "javascript.referencesCodeLens.enabled": true,
+    "typescript.referencesCodeLens.enabled": true,
+    "javascript.validate.enable": true
+}

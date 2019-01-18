@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "checkJs": true,
+    "moduleResolution": "node",
+    "baseUrl": "./",
+    "paths": {
+      "~/*": ["*"]
+    },
+    "resolveJsonModule": true
+  },
+  "exclude": [
+    "**/node_modules/**"
+  ]
+}
