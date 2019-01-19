@@ -1,6 +1,14 @@
 'use strict'
 const RangeCollection = require('../RangeCollection')
 
+function absoluteSort (a, b) {
+  if (Math.abs(a) === Math.abs(b)) {
+    return a - b // reorder [x, -x] to [-x, x]: negative value first cancels range
+  } else {
+    return Math.abs(a) - Math.abs(b)
+  }
+}
+
 class SimpleRangeCollection extends RangeCollection {
   constructor () {
     super()
@@ -12,22 +20,27 @@ class SimpleRangeCollection extends RangeCollection {
    */
   add ([start, end]) {
     this.ranges = [...this.ranges, start, -end]
-    this.ranges.sort((a, b) => (Math.abs(a) - Math.abs(b)))
+    this.ranges.sort(absoluteSort)
 
     let inRange = false
     let idx
 
     for (idx = 0; idx < this.ranges.length - 1; idx++) {
+      if (this.ranges[idx] === -this.ranges[idx + 1]) {
+        this.ranges.splice(idx, 2)
+        idx -= 2
+      }
       if (inRange && this.ranges[idx] >= 0 && this.ranges[idx + 1] < 0) {
         // when signs flip sequentially,
         // we can safely remove the inner range
         // sinde ranges addition is transitive, i.e.:
         // the order in which we add ranges doesn't matter
         // note: subtracting ranges on the other hand are not transitive: the order matters
-        this.ranges.splice(idx--, 2)
-        idx-- // since we just removed two consecutive element
+        this.ranges.splice(idx, 2)
+        idx -= 2 // since we just removed two consecutive element
         inRange = false
       }
+
       if (this.ranges[idx] >= 0) {
         inRange = true
       } else {
@@ -42,13 +55,7 @@ class SimpleRangeCollection extends RangeCollection {
    */
   remove ([start, end]) {
     this.ranges = [...this.ranges, -start, end] // fliped signs!
-    this.ranges.sort((a, b) => {
-      if (Math.abs(a) === Math.abs(b)) {
-        return a - b // reorder [x, -x] to [-x, x]: negative value first cancels range
-      } else {
-        return Math.abs(a) - Math.abs(b)
-      }
-    })
+    this.ranges.sort(absoluteSort)
 
     let idx
     for (idx = 0; idx < this.ranges.length - 1; idx++) {
