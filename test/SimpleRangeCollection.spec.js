@@ -114,6 +114,15 @@ test('remove multiple overlaps', t => {
   t.deepEqual(rc.ranges, [3, -4, 10, -11], 'the largest overarching range did not cancel all inner ranges')
 })
 
+test('print', t => {
+  const expected = '[3, 5)'
+  const rc = new SimpleRangeCollection()
+
+  rc.add([3, 5])
+
+  t.is(rc.print(), expected)
+})
+
 test.skip('complex sequence', t => {
   const rc = new SimpleRangeCollection()
 
