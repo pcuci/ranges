@@ -13,7 +13,7 @@ class SimpleRangeCollection extends RangeCollection {
   add ([start, end]) {
     this.ranges = [...this.ranges, start, -end]
     this.ranges.sort(absoluteSort)
-    this.ranges = removeFlippedSigns(this.ranges)
+    this.ranges = removeDotRanges(this.ranges)
 
     let inRange = false
     let idx
@@ -69,13 +69,13 @@ class SimpleRangeCollection extends RangeCollection {
 
 function absoluteSort (a, b) {
   if (Math.abs(a) === Math.abs(b)) {
-    return a - b // reorder [x, -x] to [-x, x]: negative value first cancels range
+    return a - b // reorder [x, -x] to [-x, x] as convention, used later to filter out this "dot" range
   } else {
     return Math.abs(a) - Math.abs(b)
   }
 }
 
-function removeFlippedSigns (ranges) {
+function removeDotRanges (ranges) {
   const result = [...ranges]
   let idx
   for (idx = 0; idx < result.length - 1; idx++) {
@@ -87,4 +87,8 @@ function removeFlippedSigns (ranges) {
   return result
 }
 
-module.exports = SimpleRangeCollection
+module.exports = {
+  SimpleRangeCollection,
+  absoluteSort,
+  removeDotRanges
+}
