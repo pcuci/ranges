@@ -123,6 +123,16 @@ test('print', t => {
   t.is(rc.print(), expected)
 })
 
+test('print series', t => {
+  const expected = '[1, 3) [4, 10)'
+  const rc = new SimpleRangeCollection()
+
+  rc.add([1, 10])
+  rc.remove([3, 4])
+
+  t.is(rc.print(), expected)
+})
+
 test.skip('complex sequence', t => {
   const rc = new SimpleRangeCollection()
 
