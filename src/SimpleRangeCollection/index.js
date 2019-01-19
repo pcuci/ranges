@@ -1,14 +1,6 @@
 'use strict'
 const RangeCollection = require('../RangeCollection')
 
-function absoluteSort (a, b) {
-  if (Math.abs(a) === Math.abs(b)) {
-    return a - b // reorder [x, -x] to [-x, x]: negative value first cancels range
-  } else {
-    return Math.abs(a) - Math.abs(b)
-  }
-}
-
 class SimpleRangeCollection extends RangeCollection {
   constructor () {
     super()
@@ -21,21 +13,14 @@ class SimpleRangeCollection extends RangeCollection {
   add ([start, end]) {
     this.ranges = [...this.ranges, start, -end]
     this.ranges.sort(absoluteSort)
+    this.ranges = removeFlippedSigns(this.ranges)
 
     let inRange = false
     let idx
 
     for (idx = 0; idx < this.ranges.length - 1; idx++) {
-      if (this.ranges[idx] === -this.ranges[idx + 1]) {
-        this.ranges.splice(idx, 2)
-        idx -= 2
-      }
       if (inRange && this.ranges[idx] >= 0 && this.ranges[idx + 1] < 0) {
-        // when signs flip sequentially,
-        // we can safely remove the inner range
-        // sinde ranges addition is transitive, i.e.:
-        // the order in which we add ranges doesn't matter
-        // note: subtracting ranges on the other hand are not transitive: the order matters
+        // we can now safely remove the inner range
         this.ranges.splice(idx, 2)
         idx -= 2 // since we just removed two consecutive element
         inRange = false
@@ -80,6 +65,26 @@ class SimpleRangeCollection extends RangeCollection {
       return acc
     }, '').trim()
   }
+}
+
+function absoluteSort (a, b) {
+  if (Math.abs(a) === Math.abs(b)) {
+    return a - b // reorder [x, -x] to [-x, x]: negative value first cancels range
+  } else {
+    return Math.abs(a) - Math.abs(b)
+  }
+}
+
+function removeFlippedSigns (ranges) {
+  const result = [...ranges]
+  let idx
+  for (idx = 0; idx < result.length - 1; idx++) {
+    if (result[idx] === -result[idx + 1]) {
+      result.splice(idx, 2)
+      idx -= 2
+    }
+  }
+  return result
 }
 
 module.exports = SimpleRangeCollection
