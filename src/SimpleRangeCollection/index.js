@@ -18,11 +18,16 @@ class SimpleRangeCollection extends RangeCollection {
     let idx
 
     for (idx = 0; idx < this.ranges.length - 1; idx++) {
-      if (inRange && this.ranges[idx] + this.ranges[idx + 1] <= 0) {
-        // remove both consecutive elements
-        this.ranges.splice(idx, 2)
+      if (inRange && this.ranges[idx] >= 0 && this.ranges[idx + 1] < 0) {
+        // when signs flip sequentially,
+        // we can safely remove the inner range
+        // sinde ranges addition is transitive, i.e.:
+        // the order in which we add ranges doesn't matter
+        // note: subtracting ranges on the other hand are not transitive: the order matters
+        this.ranges.splice(idx--, 2)
+        idx-- // since we just removed two consecutive element
+        inRange = false
       }
-
       if (this.ranges[idx] >= 0) {
         inRange = true
       } else {
