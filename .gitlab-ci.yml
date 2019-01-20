@@ -1,7 +1,6 @@
 stages:
   - lint
   - test
-  - release
   - publish
 
 image: node
@@ -35,17 +34,8 @@ test:node:8:
   script:
     - npm test
 
-release:
-  stage: release
-  script:
-    - npm run release
-  only:
-    - master
-
 publish:
   stage: publish
   script:
     - echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}'>.npmrc
     - npm publish
-  only:
-    - tags
