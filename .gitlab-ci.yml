@@ -1,4 +1,9 @@
-image: node:10
+stages:
+  - lint
+  - test
+  - publish
+
+image: node
 
 before_script:
   - npm install
@@ -7,27 +12,30 @@ cache:
   paths:
     - node_modules/
 
-test:lint:
+lint:
+  stage: lint
   script:
     - npm run lint
 
 test:node:latest:
+  stage: test
   image: node:latest
   script:
     - npm test
 
 test:node:10:
+  stage: test
   script:
     - npm test
 
 test:node:8:
+  stage: test
   image: node:8
   script:
     - npm test
 
-# Publish tagged versions to npm
 publish:
-  stage: deploy
+  stage: publish
   only:
     - tags
   script:
