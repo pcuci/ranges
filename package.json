@@ -6,7 +6,7 @@
   "scripts": {
     "test": "ava",
     "lint": "standard .",
-    "publish": "semantic-release"
+    "release": "semantic-release"
   },
   "repository": {
     "type": "git",
@@ -63,21 +63,7 @@
       "@semantic-release/release-notes-generator",
       "@semantic-release/changelog",
       "@semantic-release/npm",
-      "@semantic-release/git"
-    ],
-    "verifyConditions": [
-      "@semantic-release/changelog",
-      "@semantic-release/npm",
       "@semantic-release/git",
-      "@semantic-release/gitlab"
-    ],
-    "prepare": [
-      "@semantic-release/changelog",
-      "@semantic-release/npm",
-      "@semantic-release/git"
-    ],
-    "publish": [
-      "@semantic-release/npm",
       "@semantic-release/gitlab"
     ]
   }

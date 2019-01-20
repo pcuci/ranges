@@ -1,5 +1,5 @@
 stages:
-  - publish
+  - release
 
 image: node
 
@@ -32,8 +32,8 @@ cache:
 #   script:
 #     - npm test
 
-publish:
-  stage: publish
+release:
+  stage: release
   script:
     - echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}'>.npmrc
-    - npm publish
+    - npm run release
