@@ -63,6 +63,8 @@
       "@semantic-release/changelog",
       "@semantic-release/npm",
       "@semantic-release/git"
-    ]
+    ],
+    "verifyConditions": ["@semantic-release/changelog", "@semantic-release/npm", "@semantic-release/git", "@semantic-release/gitlab"],
+    "prepare": ["@semantic-release/changelog", "@semantic-release/npm", "@semantic-release/git", "@semantic-release/gitlab"]
   }
 }
