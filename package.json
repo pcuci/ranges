@@ -6,12 +6,12 @@
   "scripts": {
     "test": "ava",
     "lint": "standard .",
-    "release": "semantic-release-gitlab",
+    "release": "DEBUG=* semantic-release-gitlab",
     "publish": "npm-publish-git-tag"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/pcuci/ranges.git"
+    "url": "git+https://gitlab.com/pcuci/ranges.git"
   },
   "keywords": [
     "ranges",
@@ -29,9 +29,11 @@
   "devDependencies": {
     "@commitlint/cli": "^7.3.2",
     "@commitlint/config-conventional": "^7.3.1",
+    "@semantic-release/gitlab-config": "^5.0.0",
     "ava": "^1.1.0",
     "husky": "^1.3.1",
     "npm-publish-git-tag": "^3.0.3",
+    "semantic-release": "^15.13.3",
     "semantic-release-gitlab": "^7.1.3",
     "standard": "^12.0.1"
   },
@@ -53,5 +55,8 @@
   "directories": {
     "test": "test"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "release": {
+    "extends": "@semantic-release/gitlab-config"
+  }
 }
