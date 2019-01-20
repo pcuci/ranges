@@ -25,6 +25,7 @@ test('add empty at far edge', t => {
   const rc = new SimpleRangeCollection()
 
   rc.add([1, 5])
+
   rc.add([5, 5])
 
   // ?rc.ranges
