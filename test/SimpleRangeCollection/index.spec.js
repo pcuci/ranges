@@ -7,3 +7,5 @@ test('instantiate', t => {
   const rc = new SimpleRangeCollection()
   t.true(rc instanceof SimpleRangeCollection)
 })
+
+test.skip('nothing', (t) => {})

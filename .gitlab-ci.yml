@@ -24,16 +24,16 @@ test:node:latest:
   script:
     - npm test
 
-# test:node:10:
-#   stage: test
-#   script:
-#     - npm test
+test:node:10:
+  stage: test
+  script:
+    - npm test
 
-# test:node:8:
-#   stage: test
-#   image: node:8
-#   script:
-#     - npm test
+test:node:8:
+  stage: test
+  image: node:8
+  script:
+    - npm test
 
 release:
   stage: release
