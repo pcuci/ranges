@@ -1,6 +1,6 @@
 {
   "name": "@pcuci/ranges",
-  "version": "0.0.1",
+  "version": "0.0.0-semantic-release",
   "description": "keep track of ranges",
   "main": "src/index.js",
   "scripts": {
