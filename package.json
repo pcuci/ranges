@@ -6,12 +6,12 @@
   "scripts": {
     "test": "ava",
     "lint": "standard .",
-    "release": "semantic-release-gitlab",
+    "release": "DEBUG=* semantic-release-gitlab",
     "publish": "npm-publish-git-tag"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/pcuci/ranges.git"
+    "url": "git+https://gitlab.com/pcuci/ranges.git"
   },
   "keywords": [
     "ranges",

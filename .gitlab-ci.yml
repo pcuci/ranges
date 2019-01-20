@@ -1,6 +1,4 @@
 stages:
-  - lint
-  - test
   - release
   - publish
 
@@ -13,37 +11,38 @@ cache:
   paths:
     - node_modules/
 
-lint:
-  stage: lint
-  script:
-    - npm run lint
+# lint:
+#   stage: lint
+#   script:
+#     - npm run lint
 
-test:node:latest:
-  stage: test
-  image: node:latest
-  script:
-    - npm test
+# test:node:latest:
+#   stage: test
+#   image: node:latest
+#   script:
+#     - npm test
 
-test:node:10:
-  stage: test
-  script:
-    - npm test
+# test:node:10:
+#   stage: test
+#   script:
+#     - npm test
 
-test:node:8:
-  stage: test
-  image: node:8
-  script:
-    - npm test
+# test:node:8:
+#   stage: test
+#   image: node:8
+#   script:
+#     - npm test
 
 release:
-  only:
-    - master
+  stage: release
   script:
     - npm run release
-  stage: release
+  only:
+    - master
 
 publish:
+  stage: publish
+  script:
+    - npm publish
   only:
     - tags
-  script:
-    - npm publish 
