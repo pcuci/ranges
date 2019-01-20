@@ -11,26 +11,18 @@ test:lint:
   script:
     - npm run lint
 
-test:vulnerabilities:
+test:node:latest:
+  image: node:latest
   script:
-    - npm run vuln-test
+    - npm test
 
 test:node:10:
   script:
-    - npm install -g codecov
-    - npm run build
-    - npm test && codecov
-
-test:node:11:
-  image: node:11
-  script:
-    - npm run build
     - npm test
 
 test:node:8:
   image: node:8
   script:
-    - npm run build
     - npm test
 
 # Publish tagged versions to npm
@@ -39,6 +31,5 @@ publish:
   only:
     - tags
   script:
-    - npm run build
     - echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}'>.npmrc
     - npm publish
