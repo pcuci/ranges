@@ -11,6 +11,10 @@ class SimpleRangeCollection extends RangeCollection {
    * @param {Array<number>} range - Array of two integers that specify beginning and end of range.
    */
   add ([start, end]) {
+    if (start - end) {
+      throw new Error('Second half-open interval argument must be larger than the first')
+    }
+
     this.ranges = [...this.ranges, start, -end]
     this.ranges.sort(absoluteSort)
     this.ranges = removeDotRanges(this.ranges)
