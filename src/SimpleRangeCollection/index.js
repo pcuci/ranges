@@ -9,47 +9,25 @@ class SimpleRangeCollection extends RangeCollection {
   }
   /**
    * Adds a range to the collection
-   * @param {Array<number>} range - Array of two integers that specify beginning and end of range.
+   * @param {Array<number>} ranges - Array of two integers that specify beginning and end of range.
    */
-  add ([start, end]) {
-    const positiveIntervalsAdd = mutableAdd(this.positiveRanges, (x) => x)
-    const negativeIntervalsAdd = mutableAdd(this.negativeRanges, (x) => -x)
-
-    if (start < 0 && end >= 0) {
-      positiveIntervalsAdd(0, end)
-      negativeIntervalsAdd(start, 0)
-    } else if (start >= 0 && end >= 0) {
-      positiveIntervalsAdd(start, end)
-    } else if (start < 0 && end < 0) {
-      negativeIntervalsAdd(start, end)
-    } else {
-      throw new Error('Second half-open interval argument must be larger than the first')
-    }
+  add (ranges) {
+    splitAndMutateProcess(this.positiveRanges, this.negativeRanges, ranges, mutableAdd)
   }
 
   /**
    * Removes a range from the collection
-   * @param {Array<number>} range - Array of two integers that specify beginning and end of range.
+   * @param {Array<number>} ranges - Array of two integers that specify beginning and end of range.
    */
-  remove ([start, end]) {
-    this.positiveRanges = [...this.positiveRanges, -start, end] // fliped signs!
-    this.positiveRanges.sort(absoluteSort)
-
-    let idx
-    for (idx = 0; idx < this.positiveRanges.length - 1; idx++) {
-      if (!(idx % 2) && this.positiveRanges[idx] <= 0 && this.positiveRanges[idx + 1] > 0) {
-        // remove all flipped sign pairs
-        this.positiveRanges.splice(idx, 2)
-        idx -= 2 // since we just removed two consecutive elements
-      }
-    }
+  remove (ranges) {
+    splitAndMutateProcess(this.positiveRanges, this.negativeRanges, ranges, mutableRemove)
   }
 
   /**
    * Prints out the list of ranges in the range collection
    */
   print () {
-    return this.positiveRanges.reduce((acc, cur, idx) => {
+    return [...this.negativeRanges.reverse(), ...this.positiveRanges].reduce((acc, cur, idx) => {
       if (idx % 2) {
         acc += `${-cur}) `
       } else {
@@ -78,6 +56,22 @@ function removeLengthZeroIntervals (ranges) {
   }
 }
 
+function splitAndMutateProcess (positiveRanges, negativeRanges, [start, end], mutation) {
+  const mutatePositiveRanges = mutation(positiveRanges, (x) => x)
+  const mutateNegativeRanges = mutation(negativeRanges, (x) => -x)
+
+  if (start < 0 && end >= 0) {
+    mutatePositiveRanges(0, end)
+    mutateNegativeRanges(0, start)
+  } else if (start >= 0 && end >= 0) {
+    mutatePositiveRanges(start, end)
+  } else if (start < 0 && end < 0) {
+    mutateNegativeRanges(end, start)
+  } else {
+    throw new Error('Second half-open interval argument must be larger than the first')
+  }
+}
+
 function mutableAdd (collection = [], transform) {
   return (start, end) => {
     if (start !== end) {
@@ -91,7 +85,6 @@ function mutableAdd (collection = [], transform) {
       let idx
 
       for (idx = 0; idx < collection.length - 1; idx++) {
-        console.log(collection)
         if (inRange && collection[idx] >= 0 && collection[idx + 1] < 0) {
           // we can now safely remove the inner range
           collection.splice(idx, 2)
@@ -109,9 +102,28 @@ function mutableAdd (collection = [], transform) {
   }
 }
 
+function mutableRemove (collection = [], transform) {
+  return (start, end) => {
+    // flip signs to use similar algorithm
+    collection.push(-transform(start))
+    collection.push(transform(end))
+    collection.sort(absoluteSort)
+
+    let idx
+    for (idx = 0; idx < collection.length - 1; idx++) {
+      if (!(idx % 2) && collection[idx] <= 0 && collection[idx + 1] > 0) {
+        // remove all flipped sign pairs
+        collection.splice(idx, 2)
+        idx -= 2 // since we just removed two consecutive elements
+      }
+    }
+  }
+}
+
 module.exports = {
   SimpleRangeCollection,
   absoluteSort,
   removeLengthZeroIntervals,
-  mutableAdd
+  mutableAdd,
+  mutableRemove
 }

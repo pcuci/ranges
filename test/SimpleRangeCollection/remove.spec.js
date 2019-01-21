@@ -7,7 +7,9 @@ test('same', t => {
   const rc = new SimpleRangeCollection()
 
   rc.add([1, 5])
+  // ?.rc.positiveRanges
   rc.remove([1, 5])
+  // ?.rc.positiveRanges
 
   t.deepEqual(rc.positiveRanges, [])
 })
