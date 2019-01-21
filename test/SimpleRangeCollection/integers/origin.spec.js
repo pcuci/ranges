@@ -7,9 +7,7 @@ test('crosses positive zero', t => {
   const rc = new SimpleRangeCollection()
 
   rc.add([0, 5])
-  console.log(rc.positiveRanges)
   rc.add([0, 4])
-  console.log(rc.positiveRanges)
 
   t.deepEqual(rc.positiveRanges, [0, -5])
 })

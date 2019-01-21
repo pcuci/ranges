@@ -27,7 +27,7 @@ class SimpleRangeCollection extends RangeCollection {
    * Prints out the list of ranges in the range collection
    */
   print () {
-    return [...this.negativeRanges.reverse(), ...this.positiveRanges].reduce((acc, cur, idx) => {
+    return fuseRanges(this.negativeRanges, this.positiveRanges).reduce((acc, cur, idx) => {
       if (idx % 2) {
         acc += `${-cur}) `
       } else {
@@ -68,7 +68,6 @@ function splitAndMutateProcess (positiveRanges, negativeRanges, [start, end], mu
     }
     return -x
   })
-  console.log(start, end)
 
   if (start < 0 && end >= 0) {
     mutatePositiveRanges(0, end)
@@ -100,7 +99,6 @@ function mutableAdd (collection, transform) {
         idx -= 2 // since we just removed two consecutive element
         inRange = false
       }
-      console.log(collection)
 
       if (collection[idx] >= 0) {
         inRange = true
@@ -127,6 +125,18 @@ function mutableRemove (collection = [], transform) {
       }
     }
   }
+}
+
+function fuseRanges (negativeRanges, positiveRanges) {
+  const ranges = [...negativeRanges.reverse(), ...positiveRanges]
+  let idx = 0
+  for (idx = 0; idx < ranges.length - 1; idx++) {
+    if (ranges[idx] === 0 && ranges[idx + 1] === 0) { // ensures -0 cases too
+      ranges.splice(idx, 2)
+      idx -= 2 // since we just removed two consecutive elements
+    }
+  }
+  return ranges
 }
 
 module.exports = {
