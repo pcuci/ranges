@@ -4,37 +4,26 @@ const RangeCollection = require('../RangeCollection')
 class SimpleRangeCollection extends RangeCollection {
   constructor () {
     super()
-    this.ranges = []
+    this.positiveRanges = []
+    this.negativeRanges = []
   }
   /**
    * Adds a range to the collection
    * @param {Array<number>} range - Array of two integers that specify beginning and end of range.
    */
   add ([start, end]) {
-    if (start - end) {
+    const positiveIntervalsAdd = mutableAdd(this.positiveRanges, (x) => x)
+    const negativeIntervalsAdd = mutableAdd(this.negativeRanges, (x) => -x)
+
+    if (start < 0 && end >= 0) {
+      positiveIntervalsAdd(0, end)
+      negativeIntervalsAdd(start, 0)
+    } else if (start >= 0 && end >= 0) {
+      positiveIntervalsAdd(start, end)
+    } else if (start < 0 && end < 0) {
+      negativeIntervalsAdd(start, end)
+    } else {
       throw new Error('Second half-open interval argument must be larger than the first')
-    }
-
-    this.ranges = [...this.ranges, start, -end]
-    this.ranges.sort(absoluteSort)
-    this.ranges = removeDotRanges(this.ranges)
-
-    let inRange = false
-    let idx
-
-    for (idx = 0; idx < this.ranges.length - 1; idx++) {
-      if (inRange && this.ranges[idx] >= 0 && this.ranges[idx + 1] < 0) {
-        // we can now safely remove the inner range
-        this.ranges.splice(idx, 2)
-        idx -= 2 // since we just removed two consecutive element
-        inRange = false
-      }
-
-      if (this.ranges[idx] >= 0) {
-        inRange = true
-      } else {
-        inRange = false
-      }
     }
   }
 
@@ -43,14 +32,14 @@ class SimpleRangeCollection extends RangeCollection {
    * @param {Array<number>} range - Array of two integers that specify beginning and end of range.
    */
   remove ([start, end]) {
-    this.ranges = [...this.ranges, -start, end] // fliped signs!
-    this.ranges.sort(absoluteSort)
+    this.positiveRanges = [...this.positiveRanges, -start, end] // fliped signs!
+    this.positiveRanges.sort(absoluteSort)
 
     let idx
-    for (idx = 0; idx < this.ranges.length - 1; idx++) {
-      if (!(idx % 2) && this.ranges[idx] <= 0 && this.ranges[idx + 1] > 0) {
+    for (idx = 0; idx < this.positiveRanges.length - 1; idx++) {
+      if (!(idx % 2) && this.positiveRanges[idx] <= 0 && this.positiveRanges[idx + 1] > 0) {
         // remove all flipped sign pairs
-        this.ranges.splice(idx, 2)
+        this.positiveRanges.splice(idx, 2)
         idx -= 2 // since we just removed two consecutive elements
       }
     }
@@ -60,7 +49,7 @@ class SimpleRangeCollection extends RangeCollection {
    * Prints out the list of ranges in the range collection
    */
   print () {
-    return this.ranges.reduce((acc, cur, idx) => {
+    return this.positiveRanges.reduce((acc, cur, idx) => {
       if (idx % 2) {
         acc += `${-cur}) `
       } else {
@@ -79,20 +68,50 @@ function absoluteSort (a, b) {
   }
 }
 
-function removeDotRanges (ranges) {
-  const result = [...ranges]
+function removeLengthZeroIntervals (ranges) {
   let idx
-  for (idx = 0; idx < result.length - 1; idx++) {
-    if (result[idx] === -result[idx + 1]) {
-      result.splice(idx, 2)
+  for (idx = 0; idx < ranges.length - 1; idx++) {
+    if (ranges[idx] === -ranges[idx + 1]) {
+      ranges.splice(idx, 2)
       idx -= 2
     }
   }
-  return result
+}
+
+function mutableAdd (collection = [], transform) {
+  return (start, end) => {
+    if (start !== end) {
+      collection.push(transform(start))
+      collection.push(-transform(end))
+
+      collection.sort(absoluteSort)
+      removeLengthZeroIntervals(collection)
+
+      let inRange = false
+      let idx
+
+      for (idx = 0; idx < collection.length - 1; idx++) {
+        console.log(collection)
+        if (inRange && collection[idx] >= 0 && collection[idx + 1] < 0) {
+          // we can now safely remove the inner range
+          collection.splice(idx, 2)
+          idx -= 2 // since we just removed two consecutive element
+          inRange = false
+        }
+
+        if (collection[idx] >= 0) {
+          inRange = true
+        } else {
+          inRange = false
+        }
+      }
+    }
+  }
 }
 
 module.exports = {
   SimpleRangeCollection,
   absoluteSort,
-  removeDotRanges
+  removeLengthZeroIntervals,
+  mutableAdd
 }
