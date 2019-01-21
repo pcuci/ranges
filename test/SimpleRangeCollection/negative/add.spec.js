@@ -7,7 +7,7 @@ test('throws when inclusive limit is larger than the open limit', t => {
   const rc = new SimpleRangeCollection()
 
   const error = t.throws(() => {
-    rc.add([3, -2])
+    rc.add([3, 1])
   }, Error)
 
   t.is(error.message, 'Second half-open interval argument must be larger than the first')

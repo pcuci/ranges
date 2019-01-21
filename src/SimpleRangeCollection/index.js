@@ -49,7 +49,7 @@ function absoluteSort (a, b) {
 function removeLengthZeroIntervals (ranges) {
   let idx
   for (idx = 0; idx < ranges.length - 1; idx++) {
-    if (ranges[idx] === -ranges[idx + 1]) {
+    if (ranges[idx] === -ranges[idx + 1] && ranges[idx] !== 0) {
       ranges.splice(idx, 2)
       idx -= 2
     }
@@ -57,46 +57,55 @@ function removeLengthZeroIntervals (ranges) {
 }
 
 function splitAndMutateProcess (positiveRanges, negativeRanges, [start, end], mutation) {
+  if (end < start) {
+    throw new Error('Second half-open interval argument must be larger than the first')
+  }
+
   const mutatePositiveRanges = mutation(positiveRanges, (x) => x)
-  const mutateNegativeRanges = mutation(negativeRanges, (x) => -x)
+  const mutateNegativeRanges = mutation(negativeRanges, (x) => {
+    if (x === 0) { // strange -0 case creates problems, ref: http://2ality.com/2012/03/signedzero.html
+      return 0
+    }
+    return -x
+  })
+  console.log(start, end)
 
   if (start < 0 && end >= 0) {
     mutatePositiveRanges(0, end)
     mutateNegativeRanges(0, start)
-  } else if (start >= 0 && end >= 0) {
-    mutatePositiveRanges(start, end)
-  } else if (start < 0 && end < 0) {
-    mutateNegativeRanges(end, start)
-  } else {
-    throw new Error('Second half-open interval argument must be larger than the first')
+  } else if (start <= end) {
+    if (start >= 0 && end >= 0) {
+      mutatePositiveRanges(start, end)
+    } else if (start < 0 && end < 0) {
+      mutateNegativeRanges(end, start)
+    }
   }
 }
 
-function mutableAdd (collection = [], transform) {
+function mutableAdd (collection, transform) {
   return (start, end) => {
-    if (start !== end) {
-      collection.push(transform(start))
-      collection.push(-transform(end))
+    collection.push(transform(start))
+    collection.push(-transform(end)) // negative sign encode open end of half-interval
 
-      collection.sort(absoluteSort)
-      removeLengthZeroIntervals(collection)
+    collection.sort(absoluteSort)
 
-      let inRange = false
-      let idx
+    removeLengthZeroIntervals(collection)
+    let inRange = false
+    let idx
 
-      for (idx = 0; idx < collection.length - 1; idx++) {
-        if (inRange && collection[idx] >= 0 && collection[idx + 1] < 0) {
-          // we can now safely remove the inner range
-          collection.splice(idx, 2)
-          idx -= 2 // since we just removed two consecutive element
-          inRange = false
-        }
+    for (idx = 0; idx < collection.length - 1; idx++) {
+      if (inRange && collection[idx] >= 0 && collection[idx + 1] < 0) {
+        // we can now safely remove the inner range
+        collection.splice(idx, 2)
+        idx -= 2 // since we just removed two consecutive element
+        inRange = false
+      }
+      console.log(collection)
 
-        if (collection[idx] >= 0) {
-          inRange = true
-        } else {
-          inRange = false
-        }
+      if (collection[idx] >= 0) {
+        inRange = true
+      } else {
+        inRange = false
       }
     }
   }

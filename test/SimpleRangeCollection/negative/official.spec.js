@@ -12,8 +12,8 @@ test('complex sequence', t => {
   rc.add([-20, -10])
   t.is(rc.print(), '[-20, -10) [-5, -1)')
 
-  // rc.add([-20, -20])
-  // t.is(rc.print(), '[-20, -10) [-5, -1)')
+  rc.add([-20, -20])
+  t.is(rc.print(), '[-20, -10) [-5, -1)')
 
   rc.add([-21, -20])
   t.is(rc.print(), '[-21, -10) [-5, -1)')
