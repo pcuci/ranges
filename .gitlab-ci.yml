@@ -1,4 +1,5 @@
 stages:
+  - test
   - release
 
 image: node
@@ -10,16 +11,16 @@ cache:
   paths:
     - node_modules/
 
-# lint:
-#   stage: lint
-#   script:
-#     - npm run lint
+lint:
+  stage: test
+  script:
+    - npm run lint
 
-# test:node:latest:
-#   stage: test
-#   image: node:latest
-#   script:
-#     - npm test
+test:node:latest:
+  stage: test
+  image: node:latest
+  script:
+    - npm test
 
 # test:node:10:
 #   stage: test
