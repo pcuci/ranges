@@ -1,6 +1,6 @@
 module.exports = function (wallaby) {
   return {
-    target: "es6",
+    target: 'es6',
     files: [
       'src/**/*.js'
     ],
