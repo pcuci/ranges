@@ -154,8 +154,62 @@ function diff (r1, r2) {
   return result
 }
 
+function union (r1, r2) {
+  const set = new Set([...deZero(r1), ...deZero(r2)])
+  const sorted = Array.from(set.values()).sort((a, b) => a - b)
+
+  const result = []
+  let c1 = 0
+  let c2 = 0
+  let seconding = false
+  let adding = false
+
+  for (let n of sorted) {
+    if (n === r1[c1]) {
+      console.log(c1)
+      console.log(c2)
+      console.log(r1)
+      console.log(r2)
+      console.log(adding)
+      console.log(seconding)
+
+      adding = c1 % 2 ? false : true
+      if (adding && !seconding) {
+        result.push(n)
+        console.log(n)
+      }
+      if (!adding && !seconding) {
+        result.push(n)
+        console.log(n)
+      }
+      c1++
+    }
+
+    if (n === r2[c2]) {
+      console.log(c1)
+      console.log(c2)
+      console.log(r1)
+      console.log(r2)
+      console.log(adding)
+      console.log(seconding)
+      seconding = c2 % 2 ? false : true
+      if (!adding && seconding) {
+        result.push(n)
+        console.log(n)
+      }
+      if (!adding && !seconding) {
+        result.push(n)
+        console.log(n)
+      }
+      c2++
+    }
+  }
+  return result
+}
+
 module.exports = {
   mergeIt,
   diffIt,
-  diff
+  diff,
+  union
 }
