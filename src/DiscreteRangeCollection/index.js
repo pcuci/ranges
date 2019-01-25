@@ -1,5 +1,30 @@
 'use strict'
 
+function isNumbers (ranges) {
+  return [...ranges].every((element, idx, arr) => {
+    if (typeof element !== 'number') {
+      throw new Error('ranges must be numbers')
+    }
+    return true
+  })
+}
+
+function hasEvenLength (ranges) {
+  if (ranges.length % 2 === 1) {
+    throw new Error('ranges array must be of even length')
+  }
+  return true
+}
+
+function isMonotonic (ranges) {
+  return [...ranges].every((element, idx, arr) => {
+    if (idx && element < arr[idx - 1]) {
+      throw new Error('ranges array must be sorted')
+    }
+    return true
+  })
+}
+
 function deZero (ranges) {
   const result = [...ranges]
   let idx
@@ -89,5 +114,8 @@ function union (r1, r2) {
 module.exports = {
   diff,
   union,
-  deZero
+  deZero,
+  isNumbers,
+  isMonotonic,
+  hasEvenLength
 }
