@@ -1,14 +1,15 @@
 'use strict'
 
 function deZero (ranges) {
+  const result = [...ranges]
   let idx
-  for (idx = 0; idx < ranges.length - 1; idx++) {
-    if (ranges[idx] === ranges[idx + 1]) {
-      ranges.splice(idx, 2)
+  for (idx = 0; idx < result.length - 1; idx++) {
+    if (result[idx] === result[idx + 1]) {
+      result.splice(idx, 2)
       idx -= 2
     }
   }
-  return ranges
+  return result
 }
 
 function diff (r1, r2) {
@@ -44,6 +45,7 @@ function diff (r1, r2) {
       c2++
     }
   }
+
   return result
 }
 
@@ -80,11 +82,12 @@ function union (r1, r2) {
       c2++
     }
   }
-  console.log(result)
+
   return deZero(result)
 }
 
 module.exports = {
   diff,
-  union
+  union,
+  deZero
 }
