@@ -18,7 +18,7 @@ test('union 3122', t => {
     .from(union([3, 6], [1, 14])), [1, 14])
 })
 
-test.only('union 32122', t => {
+test('union 32122', t => {
   t.deepEqual(Array
     .from(union([3, 6], [1, 2])), [1, 2, 3, 6])
 })
@@ -60,5 +60,10 @@ test('union 4doght', t => {
 
 test('union 4dhoght', t => {
   t.deepEqual(Array
-    .from(union([-5, 5], [-9, -8, -6, -4, -1, 1, 4, 6, 8, 9])), [-9, -8, -5, 5, 8, 9])
+    .from(union([-5, 5], [-9, -8, -6, -4, -1, 1, 4, 6, 8, 9])), [-9, -8, -6, 6, 8, 9])
+})
+
+test('union 4gdhoght', t => {
+  t.deepEqual(Array
+    .from(union([-7, 7], [-9, -8, -6, -4, -1, 1, 4, 6, 8, 9])), [-9, -8, -7, 7, 8, 9])
 })

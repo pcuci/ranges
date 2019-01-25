@@ -1,112 +1,5 @@
 'use strict'
 
-function * mergeIt (r1, r2) {
-  let c1 = 0
-  let c2 = 0
-
-  let win
-
-  while (c1 < r1.length || c2 < r2.length) {
-    if (win === r1 && c1 < r1.length) {
-      win = undefined
-      yield Math.max(r1[c1], r2[c2])
-      c1++
-      c2++
-    }
-
-    if (win === r2 && c2 < r2.length) {
-      win = undefined
-      yield Math.max(r1[c1], r2[c2])
-      c1++
-      c2++
-    }
-
-    if (r1[c1] <= r2[c2]) {
-      win = r1
-      if (c1 < r1.length) {
-        yield r1[c1]
-        c1++
-      } else {
-        yield r2[c2]
-        c2++
-      }
-      c2++
-    } else {
-      win = r2
-      if (c2 < r2.length) {
-        yield r2[c2]
-        c2++
-      } else {
-        yield r1[c1]
-        c1++
-      }
-    }
-  }
-}
-
-function * diffIt (r1, r2) {
-  let c1 = 0
-  let c2 = 0
-
-  while (c1 < r1.length || c2 < r2.length) {
-    console.log(c1, c2)
-    console.log([r1, r2])
-    if (c1 % 2 && c1 < r1.length) { // half-open minuend
-      if (c2 < r2.length) {
-        if (c2 % 2) { // half-open subtrahend
-          console.log(c1, c2)
-          console.log([r1, r2])
-          if (r2[c2] < r1[c1]) {
-            yield r2[c2]
-            console.log(r2[c2])
-          }
-          c2++
-        } else { // half-closed subtrahend
-          console.log(c1, c2)
-          console.log([r1, r2])
-          if (r2[c2] < r1[c1]) {
-            yield r2[c2]
-            console.log(r2[c2])
-            c2++
-          } else {
-            yield r1[c1]
-            console.log(r1[c1], [c1, c2], [r1.length, r2.length])
-            c1++
-          }
-        }
-      } else {
-        c1++
-      }
-    } else { // half-closed mineuend
-      if (c2 < r2.length) {
-        if (c2 % 2) { // half-open subtrahend
-          console.log(c1, c2)
-          console.log([r1, r2])
-          if (r1[c1] < r2[c2]) {
-            yield r2[c2]
-            console.log(r2[c2])
-            c1++
-          } else {
-            c2++
-          }
-        } else { // half-closed subtrahend
-          console.log(c1, c2)
-          console.log([r1, r2])
-          if (r2[c2] < r1[c1]) {
-            c2++
-          } else {
-            yield r1[c1]
-            console.log(r1[c1])
-            c1++
-          }
-        }
-      } else {
-        c1++
-      }
-    }
-  }
-}
-
 function deZero (ranges) {
   let idx
   for (idx = 0; idx < ranges.length - 1; idx++) {
@@ -166,50 +59,32 @@ function union (r1, r2) {
 
   for (let n of sorted) {
     if (n === r1[c1]) {
-      console.log(c1)
-      console.log(c2)
-      console.log(r1)
-      console.log(r2)
-      console.log(adding)
-      console.log(seconding)
-
       adding = c1 % 2 ? false : true
       if (adding && !seconding) {
         result.push(n)
-        console.log(n)
       }
       if (!adding && !seconding) {
         result.push(n)
-        console.log(n)
       }
       c1++
     }
 
     if (n === r2[c2]) {
-      console.log(c1)
-      console.log(c2)
-      console.log(r1)
-      console.log(r2)
-      console.log(adding)
-      console.log(seconding)
       seconding = c2 % 2 ? false : true
       if (!adding && seconding) {
         result.push(n)
-        console.log(n)
       }
       if (!adding && !seconding) {
         result.push(n)
-        console.log(n)
       }
       c2++
     }
   }
-  return result
+  console.log(result)
+  return deZero(result)
 }
 
 module.exports = {
-  mergeIt,
-  diffIt,
   diff,
   union
 }
