@@ -20,7 +20,7 @@ test('union 3122', t => {
 
 test.only('union 32122', t => {
   t.deepEqual(Array
-    .from(union([3, 6], [1, 2])), [1, 6])
+    .from(union([3, 6], [1, 2])), [1, 2, 3, 6])
 })
 
 test('union 321242', t => {
