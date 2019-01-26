@@ -3,7 +3,16 @@
 const RangeCollection = require('../RangeCollection')
 
 /**
- * Manipulates a collection of half-open intervals, a set-based implementation.
+ * Manipulates a collection of half-open intervals by means of a set-based implementation.
+ * Projects the input ranges onto a set, then keeps track of in/out of interval state using
+ * two distinctly incrementing counters for each competing range
+ *
+ * If both or either of the ranges are "on" or "active" then conditionals are used to
+ * compose the resulting collection of ranges
+ *
+ * **Note**: the _union_ and _diff_ helper functions solve the general case of
+ * adding and subtracting two collections of half-open intervals, and not just adding or substracting
+ * one signle half-open interval from an input range.
  *
  * @class DiscreteRangeCollection
  * @extends {RangeCollection}

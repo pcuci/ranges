@@ -1,6 +1,19 @@
 'use strict'
 const RangeCollection = require('../RangeCollection')
 
+/**
+ * Manipulates a collection of half-open intervals, a sign-encoded implementation.
+ * Internally, we keep track of two positive ranges:
+ * - a **positive** sign indicates the closed end of the half-open interval
+ * - a **negative** sign indicates the open end of the half-open interval
+ *
+ * The sign encoding helps us track if we are inside or outside an interval,
+ * adding and subtracting ranges then becomes trivial conditional logic that
+ * checks state to build up the resulting merged collection of ranges
+ *
+ * @class SimpleRangeCollection
+ * @extends {RangeCollection}
+ */
 class SimpleRangeCollection extends RangeCollection {
   constructor () {
     super()

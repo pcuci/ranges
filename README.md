@@ -35,11 +35,12 @@ Ever needed to add and subtract half-open intervals?
     -   [Parameters](#parameters-7)
 -   [union](#union)
     -   [Parameters](#parameters-8)
--   [add](#add-1)
-    -   [Parameters](#parameters-9)
--   [remove](#remove-1)
-    -   [Parameters](#parameters-10)
--   [print](#print-1)
+-   [SimpleRangeCollection](#simplerangecollection)
+    -   [add](#add-1)
+        -   [Parameters](#parameters-9)
+    -   [remove](#remove-1)
+        -   [Parameters](#parameters-10)
+    -   [print](#print-1)
 -   [RangeCollection](#rangecollection)
     -   [add](#add-2)
         -   [Parameters](#parameters-11)
@@ -51,7 +52,16 @@ Ever needed to add and subtract half-open intervals?
 
 **Extends RangeCollection**
 
-Manipulates a collection of half-open intervals, a set-based implementation.
+Manipulates a collection of half-open intervals by means of a set-based implementation.
+Projects the input ranges onto a set, then keeps track of in/out of interval state using
+two distinctly incrementing counters for each competing range
+
+If both or either of the ranges are "on" or "active" then conditionals are used to
+compose the resulting collection of ranges
+
+**Note**: the _union_ and _diff_ helper functions solve the general case of
+adding and subtracting two collections of half-open intervals, and not just adding or substracting
+one signle half-open interval from an input range.
 
 #### add
 
@@ -171,23 +181,37 @@ in a new collection, the union of the inputs
 
 Returns **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;any>** The union collection
 
-### add
+### SimpleRangeCollection
+
+**Extends RangeCollection**
+
+Manipulates a collection of half-open intervals, a sign-encoded implementation.
+Internally, we keep track of two positive ranges:
+
+-   a **positive** sign indicates the closed end of the half-open interval
+-   a **negative** sign indicates the open end of the half-open interval
+
+The sign encoding helps us track if we are inside or outside an interval,
+adding and subtracting ranges then becomes trivial conditional logic that
+checks state to build up the resulting merged collection of ranges
+
+#### add
 
 Adds a range to the collection
 
-#### Parameters
+##### Parameters
 
 -   `ranges` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)>** Array of two integers that specify beginning and end of range.
 
-### remove
+#### remove
 
 Removes a range from the collection
 
-#### Parameters
+##### Parameters
 
 -   `ranges` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)>** Array of two integers that specify beginning and end of range.
 
-### print
+#### print
 
 Prints out the list of ranges in the range collection
 
