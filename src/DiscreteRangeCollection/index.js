@@ -2,6 +2,12 @@
 
 const RangeCollection = require('../RangeCollection')
 
+/**
+ * Manipulates a collection of half-open intervals, a set-based implementation.
+ *
+ * @class DiscreteRangeCollection
+ * @extends {RangeCollection}
+ */
 class DiscreteRangeCollection extends RangeCollection {
   constructor (ranges = []) {
     super()
@@ -39,6 +45,13 @@ class DiscreteRangeCollection extends RangeCollection {
   }
 }
 
+/**
+ * Verifies all array elements are numbers
+ *
+ * @param {Number[]} ranges The array whose elements to check that are all numbers
+ * @returns {boolean} The result of the check
+ * @throws {Error} Ranges must be numbers
+ */
 function isNumbers (ranges) {
   return [...ranges].every((element, idx, arr) => {
     if (typeof element !== 'number') {
@@ -48,6 +61,13 @@ function isNumbers (ranges) {
   })
 }
 
+/**
+ * Verifies the array has an even number of elements
+ *
+ * @param {*[]} ranges Array to verify the length of
+ * @returns {boolean} Result of even length check
+ * @throws {Error} Ranges array length not even
+ */
 function hasEvenLength (ranges) {
   if (ranges.length % 2 === 1) {
     throw new Error('ranges array length not even')
@@ -55,6 +75,13 @@ function hasEvenLength (ranges) {
   return true
 }
 
+/**
+ * Verifies the array is sorted, values increase monotonically
+ *
+ * @param {*[]} ranges The array whose sort order is verified
+ * @returns {boolean} Monotonicity check result
+ * @throws {Error} Ranges array must be sorted
+ */
 function isMonotonic (ranges) {
   return [...ranges].every((element, idx, arr) => {
     if (idx && element < arr[idx - 1]) {
@@ -64,6 +91,16 @@ function isMonotonic (ranges) {
   })
 }
 
+/**
+ * Verifies the array is only numbers, is even in length,
+ * and its elements are monotonically increasing
+ *
+ * @param {*[]} ranges The array to validate
+ * @returns {*[]} The original array parameter
+ * @throws {Error} Ranges array must be sorted
+ * @throws {Error} Ranges array length not even
+ * @throws {Error} Ranges must be numbers
+ */
 function validate (ranges) {
   isNumbers(ranges)
   hasEvenLength(ranges)
@@ -71,6 +108,14 @@ function validate (ranges) {
   return ranges
 }
 
+/**
+ * Removes zero-length intervals, e.g.: [3, 3), or
+ * fuzes two intervals, e.g.: [1, 2) + [2, 3) = [1, 3)
+ *
+ * @param {*[]} ranges The array of intervals to clean
+ * @returns {*[]} A modified shorter copy of the original parameter
+ * @throws {Error} Validation errors
+ */
 function deZero (ranges) {
   validate(ranges)
   const result = [...ranges]
@@ -84,6 +129,14 @@ function deZero (ranges) {
   return result
 }
 
+/**
+ * Subtracts two collections of ranges from each other
+ *
+ * @param {*[]} range1 The range to subtract from
+ * @param {*[]} range2 The range to subtract
+ * @returns {*[]} The difference collection
+ * @throws {Error} Validation errors
+ */
 function diff (range1, range2) {
   const r1 = deZero(validate(range1))
   const r2 = deZero(validate(range2))
@@ -124,6 +177,15 @@ function diff (range1, range2) {
   return validate(deZero(result)) // clean and sanity re-check
 }
 
+/**
+ * Adds two collections of ranges to one another resulting
+ * in a new collection, the union of the inputs
+ *
+ * @param {*[]} range1 The first range to add
+ * @param {*[]} range2 The second range to add
+ * @returns {*[]} The union collection
+ * @throws {Error} Validation errors
+ */
 function union (range1, range2) {
   const r1 = deZero(validate(range1))
   const r2 = deZero(validate(range2))
