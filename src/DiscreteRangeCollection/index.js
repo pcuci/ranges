@@ -25,7 +25,15 @@ function isMonotonic (ranges) {
   })
 }
 
+function validate (ranges) {
+  isNumbers(ranges)
+  hasEvenLength(ranges)
+  isMonotonic(ranges)
+  return ranges
+}
+
 function deZero (ranges) {
+  validate(ranges)
   const result = [...ranges]
   let idx
   for (idx = 0; idx < result.length - 1; idx++) {
@@ -38,6 +46,8 @@ function deZero (ranges) {
 }
 
 function diff (r1, r2) {
+  validate(r1)
+  validate(r2)
   const set = new Set([...deZero(r1), ...deZero(r2)])
   const sorted = Array.from(set.values()).sort((a, b) => a - b)
 
@@ -71,10 +81,13 @@ function diff (r1, r2) {
     }
   }
 
-  return result
+  return validate(result) // sanity re-check
 }
 
 function union (r1, r2) {
+  validate(r1)
+  validate(r2)
+
   const set = new Set([...deZero(r1), ...deZero(r2)])
   const sorted = Array.from(set.values()).sort((a, b) => a - b)
 
@@ -108,7 +121,7 @@ function union (r1, r2) {
     }
   }
 
-  return deZero(result)
+  return validate(deZero(result)) // clean and sanity re-check
 }
 
 module.exports = {
@@ -117,5 +130,6 @@ module.exports = {
   deZero,
   isNumbers,
   isMonotonic,
-  hasEvenLength
+  hasEvenLength,
+  validate
 }
