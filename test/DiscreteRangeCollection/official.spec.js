@@ -3,7 +3,7 @@
 const test = require('ava').default
 const { DiscreteRangeCollection } = require('../../src/DiscreteRangeCollection')
 
-test.skip('complex sequence', t => {
+test('complex requirements', t => {
   const rc = new DiscreteRangeCollection()
 
   rc.add([1, 5])
