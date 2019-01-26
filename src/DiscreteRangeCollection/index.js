@@ -28,7 +28,14 @@ class DiscreteRangeCollection extends RangeCollection {
    * Prints out the list of ranges in the range collection
    */
   print () {
-    return `TODO`
+    return this.ranges.reduce((acc, cur, idx) => {
+      if (idx % 2) {
+        acc += `${cur}) `
+      } else {
+        acc += `[${cur}, `
+      }
+      return acc
+    }, '').trim()
   }
 }
 
