@@ -4,36 +4,30 @@ const test = require('ava').default
 const { DiscreteRangeCollection } = require('../../src/DiscreteRangeCollection')
 
 test('same', t => {
-  const rc = new DiscreteRangeCollection()
-
-  rc.add([1, 5])
-  // ?.rc.ranges
+  const rc = new DiscreteRangeCollection([1, 5])
   rc.remove([1, 5])
-  // ?.rc.ranges
 
   t.deepEqual(rc.ranges, [])
 })
 
 test('all', t => {
-  const rc = new DiscreteRangeCollection()
-
-  rc.add([3, 4])
+  const rc = new DiscreteRangeCollection([3, 4])
   rc.remove([1, 5])
 
   t.deepEqual(rc.ranges, [])
 })
 
 test('inside', t => {
-  const rc = new DiscreteRangeCollection()
-  rc.add([1, 10])
+  const rc = new DiscreteRangeCollection([1, 10])
   rc.remove([2, 4])
+
   t.deepEqual(rc.ranges, [1, 2, 4, 10])
 })
 
 test('overflow', t => {
-  const rc = new DiscreteRangeCollection()
-  rc.add([1, 5])
+  const rc = new DiscreteRangeCollection([1, 5])
   rc.remove([3, 8])
+
   t.deepEqual(rc.ranges, [1, 3])
 })
 

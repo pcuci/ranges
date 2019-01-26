@@ -9,6 +9,7 @@ test('has numbers only', t => {
 
 test('not numbers throws', t => {
   const error = t.throws(() => {
+    // @ts-ignore
     isNumbers([2, 2, 4, 'string'])
   }, Error)
 
