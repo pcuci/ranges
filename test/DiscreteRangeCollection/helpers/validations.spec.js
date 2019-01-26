@@ -1,7 +1,7 @@
 'use strict'
 
 const test = require('ava').default
-const { isNumbers, isMonotonic, hasEvenLength, validate } = require('../../src/DiscreteRangeCollection')
+const { isNumbers, isMonotonic, hasEvenLength, validate } = require('../../../src/DiscreteRangeCollection')
 
 test('has numbers only', t => {
   t.is(isNumbers([2, 2, 4, 5]), true)

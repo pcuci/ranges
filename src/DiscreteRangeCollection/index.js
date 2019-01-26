@@ -5,8 +5,7 @@ const RangeCollection = require('../RangeCollection')
 class DiscreteRangeCollection extends RangeCollection {
   constructor (ranges = []) {
     super()
-    validate(ranges)
-    this.ranges = ranges
+    this.ranges = deZero(validate(ranges))
   }
 
   /**
