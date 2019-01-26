@@ -66,7 +66,6 @@ function isMonotonic (ranges) {
 
 function validate (ranges) {
   isNumbers(ranges)
-  console.log(ranges)
   hasEvenLength(ranges)
   isMonotonic(ranges)
   return ranges
@@ -100,7 +99,7 @@ function diff (range1, range2) {
 
   for (let n of sorted) {
     if (n === r1[c1]) {
-      adding = c1 % 2 ? false : true
+      adding = !(c1 % 2)
       if (adding && !subtracting) {
         result.push(n)
       }
@@ -111,7 +110,7 @@ function diff (range1, range2) {
     }
 
     if (n === r2[c2]) {
-      subtracting = c2 % 2 ? false : true
+      subtracting = !(c2 % 2)
       if (adding && subtracting) {
         result.push(n)
       }
@@ -140,32 +139,22 @@ function union (range1, range2) {
 
   for (let n of sorted) {
     if (n === r1[c1]) {
-      console.log(c1)
-      console.log(c2)
-      console.log(r1)
-      console.log(r2)
-      console.log(adding)
-      console.log(seconding)
-      adding = c1 % 2 ? false : true
+      adding = !(c1 % 2) // true on start of interval (even index)
       if (adding && !seconding) {
-        console.log(n)
         result.push(n)
       }
       if (!adding && !seconding) {
-        console.log(n)
         result.push(n)
       }
       c1++
     }
 
     if (n === r2[c2]) {
-      seconding = c2 % 2 ? false : true
+      seconding = !(c2 % 2)
       if (!adding && seconding) {
-        console.log(n)
         result.push(n)
       }
       if (!adding && !seconding) {
-        console.log(n)
         result.push(n)
       }
       c2++

@@ -78,7 +78,7 @@ test('add overflow', t => {
   t.deepEqual(rc.negativeRanges, [1, -8])
 })
 
-test.skip('add preflow', t => {
+test('add preflow', t => {
   const rc = new SimpleRangeCollection()
   rc.add([-5, -1])
   rc.add([-2, 0])
