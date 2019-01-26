@@ -1,5 +1,38 @@
 'use strict'
 
+const RangeCollection = require('../RangeCollection')
+
+class DiscreteRangeCollection extends RangeCollection {
+  constructor (ranges = []) {
+    super()
+    validate(ranges)
+    this.ranges = ranges
+  }
+
+  /**
+   * Adds a range to the collection
+   * @param {Array<number>} ranges - Array of two integers that specify beginning and end of range.
+   */
+  add (ranges) {
+    this.ranges = union(this.ranges, ranges)
+  }
+
+  /**
+   * Removes a range from the collection
+   * @param {Array<number>} ranges - Array of two integers that specify beginning and end of range.
+   */
+  remove (ranges) {
+    this.ranges = diff(this.ranges, ranges)
+  }
+
+  /**
+   * Prints out the list of ranges in the range collection
+   */
+  print () {
+    return `TODO`
+  }
+}
+
 function isNumbers (ranges) {
   return [...ranges].every((element, idx, arr) => {
     if (typeof element !== 'number') {
@@ -11,7 +44,7 @@ function isNumbers (ranges) {
 
 function hasEvenLength (ranges) {
   if (ranges.length % 2 === 1) {
-    throw new Error('ranges array must be of even length')
+    throw new Error('ranges array length not even')
   }
   return true
 }
@@ -27,6 +60,7 @@ function isMonotonic (ranges) {
 
 function validate (ranges) {
   isNumbers(ranges)
+  console.log(ranges)
   hasEvenLength(ranges)
   isMonotonic(ranges)
   return ranges
@@ -45,9 +79,10 @@ function deZero (ranges) {
   return result
 }
 
-function diff (r1, r2) {
-  validate(r1)
-  validate(r2)
+function diff (range1, range2) {
+  const r1 = deZero(validate(range1))
+  const r2 = deZero(validate(range2))
+
   const set = new Set([...deZero(r1), ...deZero(r2)])
   const sorted = Array.from(set.values()).sort((a, b) => a - b)
 
@@ -81,12 +116,12 @@ function diff (r1, r2) {
     }
   }
 
-  return validate(result) // sanity re-check
+  return validate(deZero(result)) // clean and sanity re-check
 }
 
-function union (r1, r2) {
-  validate(r1)
-  validate(r2)
+function union (range1, range2) {
+  const r1 = deZero(validate(range1))
+  const r2 = deZero(validate(range2))
 
   const set = new Set([...deZero(r1), ...deZero(r2)])
   const sorted = Array.from(set.values()).sort((a, b) => a - b)
@@ -99,11 +134,19 @@ function union (r1, r2) {
 
   for (let n of sorted) {
     if (n === r1[c1]) {
+      console.log(c1)
+      console.log(c2)
+      console.log(r1)
+      console.log(r2)
+      console.log(adding)
+      console.log(seconding)
       adding = c1 % 2 ? false : true
       if (adding && !seconding) {
+        console.log(n)
         result.push(n)
       }
       if (!adding && !seconding) {
+        console.log(n)
         result.push(n)
       }
       c1++
@@ -112,9 +155,11 @@ function union (r1, r2) {
     if (n === r2[c2]) {
       seconding = c2 % 2 ? false : true
       if (!adding && seconding) {
+        console.log(n)
         result.push(n)
       }
       if (!adding && !seconding) {
+        console.log(n)
         result.push(n)
       }
       c2++
@@ -131,5 +176,6 @@ module.exports = {
   isNumbers,
   isMonotonic,
   hasEvenLength,
-  validate
+  validate,
+  DiscreteRangeCollection
 }

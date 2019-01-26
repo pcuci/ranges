@@ -36,7 +36,7 @@ test('throws odd length', t => {
     hasEvenLength([1, 2, 2, 4, 2])
   }, Error)
 
-  t.is(error.message, 'ranges array must be of even length')
+  t.is(error.message, 'ranges array length not even')
 })
 
 test('validate returns ranges', t => {

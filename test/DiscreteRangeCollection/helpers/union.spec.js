@@ -3,6 +3,11 @@
 const test = require('ava').default
 const { union } = require('../../../src/DiscreteRangeCollection')
 
+test('add zero at open end', t => {
+  t.deepEqual(Array
+    .from(union([1, 4], [4, 4])), [1, 4])
+})
+
 test('union 2', t => {
   t.deepEqual(Array
     .from(union([1, 4], [3, 6])), [1, 6])

@@ -8,6 +8,11 @@ test('diff 2', t => {
     .from(diff([1, 4], [3, 6])), [1, 3])
 })
 
+test('diff 32', t => {
+  t.deepEqual(Array
+    .from(diff([1, 5], [1, 5])), [])
+})
+
 test('diff 322', t => {
   t.deepEqual(Array
     .from(diff([3, 6], [1, 4])), [4, 6])
