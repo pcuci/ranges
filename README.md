@@ -10,17 +10,15 @@ Adds and substracts half-open intervals from a collection of ranges.
 
 ## Table of Contents
 
-- [Install](#install)
-- [Usage](#usage)
-- [API](#api)
-- [Contributing](#contributing)
-- [License](#license)
+-   [Install](#install)
+-   [Usage](#usage)
+-   [API](#api)
+-   [Contributing](#contributing)
+-   [License](#license)
 
 ## Install
 
-```
-npm install --save-dev @pcuci/ranges
-```
+    npm install --save-dev @pcuci/ranges
 
 ## Usage
 
@@ -34,7 +32,6 @@ ranges.print() // [2, 10)
 
 ranges.remove([4, 7])
 ranges.print() // [2, 4) [7, 8)
-
 ```
 
 Similarly for `SimpleRangeCollection`.
@@ -51,31 +48,33 @@ Similarly for `SimpleRangeCollection`.
     -   [remove](#remove)
         -   [Parameters](#parameters-1)
     -   [print](#print)
--   [isNumbers](#isnumbers)
+-   [hasLengthTwo](#haslengthtwo)
     -   [Parameters](#parameters-2)
--   [hasEvenLength](#hasevenlength)
+-   [isNumbers](#isnumbers)
     -   [Parameters](#parameters-3)
--   [isMonotonic](#ismonotonic)
+-   [hasEvenLength](#hasevenlength)
     -   [Parameters](#parameters-4)
--   [validate](#validate)
+-   [isMonotonic](#ismonotonic)
     -   [Parameters](#parameters-5)
--   [deZero](#dezero)
+-   [validate](#validate)
     -   [Parameters](#parameters-6)
--   [diff](#diff)
+-   [deZero](#dezero)
     -   [Parameters](#parameters-7)
--   [union](#union)
+-   [diff](#diff)
     -   [Parameters](#parameters-8)
+-   [union](#union)
+    -   [Parameters](#parameters-9)
 -   [SimpleRangeCollection](#simplerangecollection)
     -   [add](#add-1)
-        -   [Parameters](#parameters-9)
-    -   [remove](#remove-1)
         -   [Parameters](#parameters-10)
+    -   [remove](#remove-1)
+        -   [Parameters](#parameters-11)
     -   [print](#print-1)
 -   [RangeCollection](#rangecollection)
     -   [add](#add-2)
-        -   [Parameters](#parameters-11)
-    -   [remove](#remove-2)
         -   [Parameters](#parameters-12)
+    -   [remove](#remove-2)
+        -   [Parameters](#parameters-13)
     -   [print](#print-2)
 
 ### DiscreteRangeCollection
@@ -91,7 +90,7 @@ compose the resulting collection of ranges
 
 **Note**: the _union_ and _diff_ helper functions solve the general case of
 adding and subtracting two collections of half-open intervals, and not just adding or substracting
-one signle half-open interval from an input range.
+one signle half-open interval from an input ranges collection
 
 #### add
 
@@ -112,6 +111,19 @@ Removes a range from the collection
 #### print
 
 Prints out the list of ranges in the range collection
+
+### hasLengthTwo
+
+Verifies array is of length 2 or throws
+
+#### Parameters
+
+-   `ranges` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[Number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)>** The 2-element long array
+
+
+-   Throws **[Error](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Error)** Ranges array not 2 elements long
+
+Returns **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** The result of the check
 
 ### isNumbers
 
@@ -276,4 +288,3 @@ PRs accepted.
 ## License
 
 MIT © Paul Cuciureanu [@pcuci](https://github.com/pcuci)
-
