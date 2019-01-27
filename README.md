@@ -1,4 +1,6 @@
 [![standard-readme compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
+[![build status](https://gitlab.com/pcuci/ranges/badges/master/build.svg?style=flat-square)](https://gitlab.com/pcuci/ranges/pipelines)
+
 
 # Ranges Collection _(@pcuci/ranges)_
 
