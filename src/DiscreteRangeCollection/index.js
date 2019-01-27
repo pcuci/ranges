@@ -12,7 +12,7 @@ const RangeCollection = require('../RangeCollection')
  *
  * **Note**: the _union_ and _diff_ helper functions solve the general case of
  * adding and subtracting two collections of half-open intervals, and not just adding or substracting
- * one signle half-open interval from an input range.
+ * one signle half-open interval from an input ranges collection
  *
  * @class DiscreteRangeCollection
  * @extends {RangeCollection}

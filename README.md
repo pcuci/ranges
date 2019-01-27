@@ -1,13 +1,41 @@
-# Ranges
+[![standard-readme compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
 
-Ever needed to add and subtract half-open intervals?
+# Ranges Collection _(@pcuci/ranges)_
 
-## TODO
+> Manipulate half-open intervals with ease.
 
--   [x] happy path works: functional implementation
--   [ ] edge cases, validation, publishable: production ready
--   [ ] usable, docs, api, readme, jsdoc
--   [ ] fun?
+Adds and substracts half-open intervals from a collection of ranges.
+
+## Table of Contents
+
+- [Install](#install)
+- [Usage](#usage)
+- [API](#api)
+- [Contributing](#contributing)
+- [License](#license)
+
+## Install
+
+```
+npm install --save-dev @pcuci/ranges
+```
+
+## Usage
+
+```javascript
+const { DiscreteRangeCollection } = require('@pcuci/ranges')
+
+const ranges = new DiscreteRangeCollection()
+
+ranges.add([2, 10])
+ranges.print() // [2, 10)
+
+ranges.remove([4, 7])
+ranges.print() // [2, 4) [7, 8)
+
+```
+
+Similarly for `SimpleRangeCollection'.
 
 ## API
 
@@ -238,3 +266,12 @@ Removes a range from the collection
 #### print
 
 Prints out the list of ranges in the range collection
+
+## Contributing
+
+PRs accepted.
+
+## License
+
+MIT © Paul Cuciureanu [@pcuci](https://github.com/pcuci)
+
