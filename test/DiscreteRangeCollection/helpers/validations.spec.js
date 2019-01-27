@@ -1,7 +1,7 @@
 'use strict'
 
 const test = require('ava').default
-const { isNumbers, isMonotonic, hasEvenLength, validate } = require('../../../src/DiscreteRangeCollection')
+const { isNumbers, isMonotonic, hasEvenLength, hasLengthTwo, validate } = require('../../../src/DiscreteRangeCollection')
 
 test('has numbers only', t => {
   t.is(isNumbers([2, 2, 4, 5]), true)
@@ -38,6 +38,26 @@ test('throws odd length', t => {
   }, Error)
 
   t.is(error.message, 'ranges array length not even')
+})
+
+test('2 elements length', t => {
+  t.is(hasLengthTwo([1, 2]), true)
+})
+
+test('throws when less than 2', t => {
+  const error = t.throws(() => {
+    hasLengthTwo([1])
+  }, Error)
+
+  t.is(error.message, 'ranges array not 2 elements long')
+})
+
+test('throws when larger than 2', t => {
+  const error = t.throws(() => {
+    hasLengthTwo([1, 2, 5])
+  }, Error)
+
+  t.is(error.message, 'ranges array not 2 elements long')
 })
 
 test('validate returns ranges', t => {

@@ -28,7 +28,9 @@ class DiscreteRangeCollection extends RangeCollection {
    * @param {Array<number>} ranges - Array of two integers that specify beginning and end of range.
    */
   add (ranges) {
-    this.ranges = union(this.ranges, ranges)
+    if (hasLengthTwo(ranges)) {
+      this.ranges = union(this.ranges, ranges)
+    }
   }
 
   /**
@@ -36,7 +38,9 @@ class DiscreteRangeCollection extends RangeCollection {
    * @param {Array<number>} ranges - Array of two integers that specify beginning and end of range.
    */
   remove (ranges) {
-    this.ranges = diff(this.ranges, ranges)
+    if (hasLengthTwo(ranges)) {
+      this.ranges = diff(this.ranges, ranges)
+    }
   }
 
   /**
@@ -52,6 +56,20 @@ class DiscreteRangeCollection extends RangeCollection {
       return acc
     }, '').trim()
   }
+}
+
+/**
+ * Verifies array is of length 2 or throws
+ *
+ * @param {Number[]} ranges The 2-element long array
+ * @returns {boolean} The result of the check
+ * @throws {Error} Ranges array not 2 elements long
+ */
+function hasLengthTwo (ranges) {
+  if (ranges.length !== 2) {
+    throw new Error('ranges array not 2 elements long')
+  }
+  return true
 }
 
 /**
@@ -242,6 +260,7 @@ module.exports = {
   isNumbers,
   isMonotonic,
   hasEvenLength,
+  hasLengthTwo,
   validate,
   DiscreteRangeCollection
 }
