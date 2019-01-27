@@ -1,5 +1,6 @@
-[![standard-readme compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg?style=flat)](https://github.com/RichardLitt/standard-readme)
-[![build status](https://gitlab.com/pcuci/ranges/badges/master/build.svg?style=flat)](https://gitlab.com/pcuci/ranges/pipelines)
+[![Standard README Compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg?style=flat)](https://github.com/RichardLitt/standard-readme)
+[![Build Status](https://gitlab.com/pcuci/ranges/badges/master/build.svg?style=flat)](https://gitlab.com/pcuci/ranges/pipelines)
+[![Coverage Status](https://coveralls.io/repos/github/pcuci/ranges/badge.svg?branch=master)](https://coveralls.io/github/pcuci/ranges?branch=master)
 
 # Ranges Collection _(@pcuci/ranges)_
 

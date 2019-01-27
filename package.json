@@ -4,7 +4,8 @@
   "description": "keep track of ranges",
   "main": "src/index.js",
   "scripts": {
-    "test": "nyc --reporter=text-lcov ava | coveralls",
+    "test": "nyc --reporter=text-lcov ava",
+    "test:travis": "nyc --reporter=text-lcov ava | coveralls",
     "lint": "standard .",
     "release": "semantic-release",
     "doc": "documentation readme src/index.js --section=API"
